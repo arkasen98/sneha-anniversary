@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Arka & Sneha — Happy Anniversary</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Pinyon+Script&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#fdf6f0;font-family:'EB Garamond',serif;color:#4a3728;overflow-x:hidden;}
+
+/* ── PETALS ── */
+.petal{position:fixed;pointer-events:none;opacity:0;animation:fall linear infinite;z-index:0;}
+@keyframes fall{
+  0%  {transform:translateY(-30px) rotate(0deg) translateX(0);opacity:.7}
+  50% {transform:translateY(50vh)  rotate(180deg) translateX(20px);opacity:.5}
+  100%{transform:translateY(110vh) rotate(360deg) translateX(-10px);opacity:0}
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px 100px;
+  background:radial-gradient(ellipse at 65% 25%,#f9e4d8 0%,#fdf6f0 55%);
+  overflow:hidden;
+}
+.hero-ornament{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:700px;opacity:.15;}
+.hero-tag{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:#c4856a;margin-bottom:22px;animation:fadeUp .9s ease both;}
+.hero-names{font-family:'Pinyon Script',cursive;font-size:clamp(68px,13vw,108px);color:#7a3e2e;line-height:1;animation:fadeUp .9s .15s ease both;text-shadow:0 4px 40px rgba(196,133,106,.18);}
+.hero-amp{color:#d4826a;}
+.hero-heart{display:inline-block;color:#d4826a;animation:pulse 2.5s ease-in-out infinite;margin:0 4px;}
+.hero-date{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:5px;color:#b07060;margin-top:20px;animation:fadeUp .9s .3s ease both;}
+.hero-quote-wrap{
+  margin-top:40px;
+  border-top:1px solid #e8c4b4;border-bottom:1px solid #e8c4b4;
+  padding:22px 48px;animation:fadeUp .9s .45s ease both;position:relative;
+}
+.hero-quote-wrap::before,.hero-quote-wrap::after{content:'✦';position:absolute;top:50%;transform:translateY(-50%);color:#d4a090;font-size:9px;}
+.hero-quote-wrap::before{left:14px;}.hero-quote-wrap::after{right:14px;}
+.hero-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,4vw,28px);color:#6b3828;line-height:1.5;}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp .9s 1.1s ease both;}
+.scroll-hint span{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:4px;color:#c4a090;text-transform:uppercase;}
+.scroll-dot{width:1px;height:44px;background:linear-gradient(to bottom,#d4a090,transparent);animation:scrollLine 2s ease-in-out infinite;}
+
+@keyframes scrollLine{
+  0%   {transform:scaleY(0);transform-origin:top}
+  50%  {transform:scaleY(1);transform-origin:top}
+  50.1%{transform:scaleY(1);transform-origin:bottom}
+  100% {transform:scaleY(0);transform-origin:bottom}
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LAYOUT ── */
+.section{padding:80px 24px;max-width:800px;margin:0 auto;text-align:center;}
+.section-label{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#c4856a;margin-bottom:14px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#5c2e1e;margin-bottom:32px;line-height:1.2;}
+.divider-wrap{padding:0 24px;}
+.divider{display:flex;align-items:center;gap:14px;margin:0 auto;max-width:280px;}
+.divider-line{flex:1;height:1px;background:#e8c4b4;}
+.divider-icon{color:#d4a090;font-size:11px;}
+
+/* ── PHOTO GALLERY ── */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto auto;
+  gap:14px;margin-top:8px;
+}
+.photo-card{
+  border-radius:14px;overflow:hidden;position:relative;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease,transform .55s ease;
+}
+.photo-card.visible{opacity:1;transform:translateY(0);}
+.photo-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.photo-card:hover img{transform:scale(1.04);}
+.photo-card--tall{grid-row:span 2;}
+.photo-label{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(74,30,20,.65));
+  color:#fdf6f0;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;padding:20px 14px 12px;letter-spacing:.5px;
+}
+/* swap these src attributes with your own couple photos! */
+.photo-tall {height:340px;object-fit:cover;width:100%;}
+.photo-short{height:163px;object-fit:cover;width:100%;}
+
+/* placeholder shown when no real photo */
+.photo-placeholder{
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;background:#f5e8e0;color:#c4856a;
+}
+.photo-placeholder--tall {height:340px;}
+.photo-placeholder--short{height:163px;}
+.photo-placeholder-icon{font-size:28px;opacity:.5;}
+.photo-placeholder-text{font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.6;}
+
+/* ── LOCATIONS ── */
+.locations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:8px;}
+.loc-card{
+  background:#fff8f4;border:1px solid #f0d4c4;border-radius:18px;overflow:hidden;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .55s ease,transform .55s ease;
+}
+.loc-card.visible{opacity:1;transform:translateY(0);}
+.loc-map{width:100%;height:190px;border:none;display:block;filter:saturate(.85) sepia(.1);}
+.loc-body{padding:18px 20px 22px;text-align:left;}
+.loc-tag{font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#c4856a;margin-bottom:6px;}
+.loc-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#5c2e1e;margin-bottom:8px;line-height:1.2;}
+.loc-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:#7a5040;line-height:1.6;}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding:0 0 0 20px;text-align:left;max-width:580px;margin:0 auto;}
+.timeline::before{
+  content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;
+  background:linear-gradient(to bottom,#e8b4a0,#f0d4c8,#e8b4a0);
+}
+.tl-item{
+  position:relative;padding:0 0 40px 36px;
+  opacity:0;transform:translateX(-14px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.tl-item.visible{opacity:1;transform:translateX(0);}
+.tl-dot{
+  position:absolute;left:-5px;top:6px;
+  width:10px;height:10px;border-radius:50%;
+  background:#d4826a;border:2px solid #fdf6f0;box-shadow:0 0 0 2px #d4826a;
+}
+.tl-date{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c4856a;margin-bottom:6px;}
+.tl-text{font-family:'EB Garamond',serif;font-size:17px;color:#4a3728;line-height:1.7;}
+
+/* ── REASONS ── */
+.reasons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:8px;}
+.reason-card{
+  background:#fff8f4;border:1px solid #f0d4c4;border-radius:18px;padding:28px 22px;text-align:center;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.reason-card.visible{opacity:1;transform:translateY(0);}
+.reason-icon{font-size:24px;margin-bottom:12px;display:block;}
+.reason-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#5c3825;line-height:1.65;}
+
+/* ── LOVE LETTER ── */
+.letter-wrap{
+  background:#fff8f4;border:1px solid #f0d4c4;border-radius:22px;
+  padding:52px 48px;text-align:left;position:relative;overflow:hidden;
+}
+.letter-wrap::before{
+  content:'"';position:absolute;top:4px;left:24px;
+  font-family:'Pinyon Script',cursive;font-size:130px;color:#f0d0c4;line-height:1;
+}
+.letter-text{font-family:'EB Garamond',serif;font-size:18px;line-height:1.95;color:#4a3728;position:relative;z-index:1;}
+.letter-sign{font-family:'Pinyon Script',cursive;font-size:42px;color:#7a3e2e;margin-top:24px;display:block;}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:70px 24px 90px;background:linear-gradient(to bottom,#fdf6f0,#f9ede4);}
+.footer-names{font-family:'Pinyon Script',cursive;font-size:58px;color:#7a3e2e;}
+.footer-hearts{margin:16px 0;color:#d4826a;font-size:18px;letter-spacing:8px;}
+.footer-sub{font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#c4a090;}
+
+/* ════ OVERLAY SCREENS ════ */
+#main-content { display:none; }
+
+.screen{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:32px 24px;
+  background:radial-gradient(ellipse at 60% 30%,#f9e4d8 0%,#fdf6f0 70%);
+  transition:opacity .7s ease,visibility .7s ease;
+}
+.screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+.screen-ring{
+  width:110px;height:110px;border-radius:50%;
+  border:1px solid #e8c4b4;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:26px;font-size:36px;
+  box-shadow:0 0 0 8px #fdf6f0,0 0 0 9px #f0d4c4;
+  animation:fadeUp .8s ease both;
+}
+.screen-tag{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:#c4856a;margin-bottom:12px;animation:fadeUp .8s .1s ease both;}
+.screen-title{font-family:'Pinyon Script',cursive;font-size:clamp(38px,10vw,68px);color:#7a3e2e;line-height:1.1;margin-bottom:8px;animation:fadeUp .8s .2s ease both;}
+.screen-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#9a6050;margin-bottom:32px;animation:fadeUp .8s .3s ease both;line-height:1.6;}
+
+/* PASSWORD */
+.pw-wrap{position:relative;animation:fadeUp .8s .4s ease both;}
+.pw-input{
+  background:#fff8f4;border:1px solid #e8c4b4;border-radius:50px;
+  padding:14px 56px 14px 28px;
+  font-family:'Cormorant Garamond',serif;font-size:18px;color:#4a3728;
+  outline:none;width:280px;letter-spacing:3px;text-align:center;
+  transition:border-color .3s,box-shadow .3s;
+}
+.pw-input:focus{border-color:#d4826a;box-shadow:0 0 0 3px rgba(212,130,106,.15);}
+.pw-input.wrong{border-color:#e07060;box-shadow:0 0 0 3px rgba(224,112,96,.15);animation:shake .4s ease;}
+.pw-btn{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  background:#d4826a;border:none;border-radius:50%;
+  width:40px;height:40px;cursor:pointer;color:#fff;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.pw-btn:hover{background:#c4725a;}
+.pw-hint{font-family:'Cormorant Garamond',serif;font-size:13px;color:#c49080;margin-top:14px;font-style:italic;min-height:20px;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+
+/* PROPOSAL */
+.proposal-emoji{font-size:56px;margin-bottom:16px;animation:fadeUp .7s ease both,floatHeart 3s ease-in-out infinite;}
+@keyframes floatHeart{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.proposal-btns{display:flex;gap:24px;justify-content:center;align-items:center;margin-top:4px;}
+.btn-yes{
+  background:linear-gradient(135deg,#d4826a,#c4725a);color:#fff;border:none;
+  border-radius:50px;padding:16px 44px;
+  font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:2px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(212,130,106,.35);
+  transition:transform .2s,box-shadow .2s;
+  animation:fadeUp .8s .5s ease both;
+}
+.btn-yes:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(212,130,106,.45);}
+.btn-no{
+  background:#fff8f4;color:#9a6050;border:1px solid #e8c4b4;
+  border-radius:50px;padding:16px 44px;
+  font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:2px;cursor:pointer;
+  position:static;white-space:nowrap;
+  transition:none;
+  animation:fadeUp .8s .6s ease both;
+}
+.btn-no.floating{
+  position:fixed;
+  transition:left .15s ease,top .15s ease;
+}
+
+/* YES */
+.yes-emoji{font-size:64px;margin-bottom:12px;animation:popIn .6s cubic-bezier(.36,.07,.19,.97) both;}
+@keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.confetti-piece{position:fixed;pointer-events:none;width:8px;height:8px;border-radius:2px;animation:confettiFall linear forwards;z-index:1100;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.btn-gift{
+  margin-top:32px;
+  background:linear-gradient(135deg,#d4826a,#c4725a);color:#fff;border:none;
+  border-radius:50px;padding:18px 52px;
+  font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:2px;cursor:pointer;
+  box-shadow:0 4px 24px rgba(212,130,106,.4);
+  animation:fadeUp .8s .4s ease both;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-gift:hover{transform:scale(1.06);box-shadow:0 8px 32px rgba(212,130,106,.5);}
+</style>
+</head>
+<body>
+
+<!-- floating petals -->
+<div id="petals"></div>
+
+<!-- ════════════════════════════════
+     SCREEN 1 — PASSWORD GATE
+════════════════════════════════ -->
+<div class="screen" id="screen-password">
+  <div class="screen-ring">🔒</div>
+  <p class="screen-tag">A surprise awaits you</p>
+  <h1 class="screen-title">Enter the password</h1>
+  <p class="screen-sub">Someone who loves you very much<br>has hidden something special here ♡</p>
+
+  <div class="pw-wrap">
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••••" maxlength="20"
+      onkeydown="if(event.key==='Enter') checkPassword()"/>
+    <button class="pw-btn" onclick="checkPassword()">→</button>
+  </div>
+  <p class="pw-hint" id="pw-hint">&nbsp;</p>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 2 — PROPOSAL
+════════════════════════════════ -->
+<div class="screen hidden" id="screen-proposal">
+  <div class="proposal-emoji">💍</div>
+  <p class="screen-tag" id="anniversary-tag">Loading…</p>
+  <h1 class="screen-title">Sneha,</h1>
+  <p class="screen-sub">You are my home, my calm, my everything.<br>So I have one question for you…</p>
+
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6vw,42px);color:#5c2e1e;margin-bottom:36px;font-weight:300;letter-spacing:1px;">
+    Will you marry me? 💕
+  </h2>
+
+  <div class="proposal-btns" style="display:flex;flex-direction:row;gap:24px;justify-content:center;align-items:center;position:relative;min-height:70px;">
+    <button class="btn-yes" onclick="showYes()">Yes! 🥰</button>
+    <button class="btn-no" id="btn-no">No 🙈</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN 3 — YES!
+════════════════════════════════ -->
+<div class="screen hidden" id="screen-yes">
+  <div class="yes-emoji">🎉</div>
+  <p class="screen-tag">She said yes!</p>
+  <h1 class="screen-title">I knew it!</h1>
+  <p class="screen-sub">You just made me the happiest person alive, Sneha.<br>Now open your anniversary gift ♡</p>
+  <button class="btn-gift" onclick="openGift()">Open your gift 🎁</button>
+</div>
+
+<!-- ════════════════════════════════
+     MAIN CONTENT (hidden until unlocked)
+════════════════════════════════ -->
+<div id="main-content">
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero">
+  <svg class="hero-ornament" viewBox="0 0 700 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="350" cy="22" rx="80"  ry="14" stroke="#c4856a" stroke-width=".7" fill="none"/>
+    <ellipse cx="350" cy="22" rx="130" ry="24" stroke="#c4856a" stroke-width=".4" fill="none" opacity=".5"/>
+    <path d="M220 22 Q260 6 300 22 Q340 36 380 22 Q420 6 460 22 Q500 36 480 22" stroke="#c4856a" stroke-width=".7" fill="none"/>
+    <circle cx="220" cy="22" r="3.5" fill="#d4826a" opacity=".5"/>
+    <circle cx="350" cy="22" r="3.5" fill="#d4826a" opacity=".5"/>
+    <circle cx="480" cy="22" r="3.5" fill="#d4826a" opacity=".5"/>
+    <path d="M80 36 Q150 12 220 22"  stroke="#c4856a" stroke-width=".4" fill="none" opacity=".35"/>
+    <path d="M480 22 Q560 10 640 36" stroke="#c4856a" stroke-width=".4" fill="none" opacity=".35"/>
+    <text x="350" y="68" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="11" fill="#c4856a" letter-spacing="7" opacity=".6">✦ ✦ ✦</text>
+  </svg>
+
+  <p class="hero-tag">Happy Anniversary</p>
+  <div class="hero-names">Arka <span class="hero-amp">&amp;</span> Sneha</div>
+  <p class="hero-date">14 · October · 2024</p>
+
+  <div class="hero-quote-wrap">
+    <p class="hero-quote">"Tum ho to, sab kuch hay"</p>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PHOTO GALLERY
+     👉 Replace the src="" values below with your own couple photo URLs or local file paths
+════════════════════════════════ -->
+<div class="section">
+  <p class="section-label">Us, always</p>
+  <h2 class="section-title">Our little world</h2>
+
+  <div class="gallery-grid" id="gallery">
+
+    <!-- TALL LEFT — replace src with your photo -->
+    <div class="photo-card photo-card--tall" style="transition-delay:.05s">
+      <img class="photo-tall"
+        src= "Favourite.jpeg"
+        alt="Us together"
+        onerror="this.outerHTML='<div class=\'photo-placeholder photo-placeholder--tall\'><span class=\'photo-placeholder-icon\'>🌸</span><span class=\'photo-placeholder-text\'>Add your photo here</span></div>'"/>
+      <div class="photo-label">Favourite ♡</div>
+    </div>
+
+    <!-- TOP CENTRE — replace src with your photo -->
+    <div class="photo-card" style="transition-delay:.12s">
+      <img class="photo-short"
+        src="FirstPujo.jpeg"
+        alt="Us together"
+        onerror="this.outerHTML='<div class=\'photo-placeholder photo-placeholder--short\'><span class=\'photo-placeholder-icon\'>🌅</span><span class=\'photo-placeholder-text\'>Add your photo here</span></div>'"/>
+      <div class="photo-label">Our First Pujo ♡</div>
+    </div>
+
+    <!-- TOP RIGHT — replace src with your photo -->
+    <div class="photo-card" style="transition-delay:.19s">
+      <img class="photo-short"
+        src="SexyBou.jpeg"
+        alt="Us together"
+        onerror="this.outerHTML='<div class=\'photo-placeholder photo-placeholder--short\'><span class=\'photo-placeholder-icon\'>🌹</span><span class=\'photo-placeholder-text\'>Add your photo here</span></div>'"/>
+      <div class="photo-label">Sexy Bou Amar ♡</div>
+    </div>
+
+    <!-- BOTTOM CENTRE — replace src with your photo -->
+    <div class="photo-card" style="transition-delay:.26s">
+      <img class="photo-short"
+        src="FirstDate.jpeg"
+        alt="Us together"
+        onerror="this.outerHTML='<div class=\'photo-placeholder photo-placeholder--short\'><span class=\'photo-placeholder-icon\'>☕</span><span class=\'photo-placeholder-text\'>Add your photo here</span></div>'"/>
+      <div class="photo-label">Our first date evening ♡</div>
+    </div>
+
+    <!-- BOTTOM RIGHT — replace src with your photo -->
+    <div class="photo-card" style="transition-delay:.33s">
+      <img class="photo-short"
+        src="bestFeeling.jpeg"
+        alt="Us together"
+        onerror="this.outerHTML='<div class=\'photo-placeholder photo-placeholder--short\'><span class=\'photo-placeholder-icon\'>🌷</span><span class=\'photo-placeholder-text\'>Add your photo here</span></div>'"/>
+      <div class="photo-label">Best Feeling ♡</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider-wrap"><div class="divider"><div class="divider-line"></div><span class="divider-icon">✦</span><div class="divider-line"></div></div></div>
+
+<!-- ════════════════════════════════
+     OUR PLACES
+     👉 Replace location names, descriptions and photo URLs with your real places
+════════════════════════════════ -->
+<div class="section">
+  <p class="section-label">Places that hold our story</p>
+  <h2 class="section-title">Every corner of this city is ours</h2>
+
+  <div class="locations-grid" id="locations">
+
+    
+    <!-- 👉 FAVOURITE SPOT — change the q= parameter to your real location -->
+    <div class="loc-card" style="transition-delay:.13s">
+      <iframe class="loc-map"
+        src="https://maps.google.com/maps?q=City+Centre+2,+Kolkata&z=16&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="loc-body">
+        <div class="loc-tag">Our favourite spot</div>
+        <div class="loc-name">City Centre 2</div>
+        <p class="loc-desc">Where it all began — nervous smiles, stolen glances, and the start of everything beautiful.</p>
+      </div>
+    </div>
+    
+    <!-- 👉 FIRST DATE SPOT — change the q= parameter to your real location -->
+    <div class="loc-card" style="transition-delay:.05s">
+      <iframe class="loc-map"
+        src="https://maps.google.com/maps?q=Mocambo+Restaurant+Park+Street+Kolkata&z=16&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="loc-body">
+        <div class="loc-tag">First Dinner</div>
+        <div class="loc-name">Mocambo</div>
+        <p class="loc-desc">Our First dinner date</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider-wrap"><div class="divider"><div class="divider-line"></div><span class="divider-icon">✦</span><div class="divider-line"></div></div></div>
+
+<!-- ════════════════════════════════
+     TIMELINE
+════════════════════════════════ -->
+<div class="section">
+  <p class="section-label">Our journey</p>
+  <h2 class="section-title">A story that began with you</h2>
+
+  <div class="timeline" id="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">14 October 2024</div>
+      <p class="tl-text">The day everything changed — the day we said yes to each other, and to a lifetime of little moments.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <!-- Replace with a real milestone -->
+      <div class="tl-date">The first laugh</div>
+      <p class="tl-text">I knew then. Your laughter is my favourite sound in the whole world. Nothing else comes close.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <!-- Replace with a real milestone -->
+      <div class="tl-date">The quiet days</div>
+      <p class="tl-text">Even in the ordinary, you make everything extraordinary. Every mundane day with you feels like a gift.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Today</div>
+      <p class="tl-text">Two years of you. Two years of us. And I would choose you again, in every version of every life.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider-wrap"><div class="divider"><div class="divider-line"></div><span class="divider-icon">✦</span><div class="divider-line"></div></div></div>
+
+<!-- ════════════════════════════════
+     REASONS I LOVE YOU
+     👉 Replace these with your own real reasons!
+════════════════════════════════ -->
+<div class="section">
+  <p class="section-label">With all my heart</p>
+
+  <div class="reasons-grid" id="reasons">
+    <div class="reason-card" style="transition-delay:.04s">
+      <span class="reason-icon">🌸</span>
+      <p class="reason-text">The way your eyes light up when something makes you happy</p>
+    </div>
+    <div class="reason-card" style="transition-delay:.10s">
+      <span class="reason-icon">🌙</span>
+      <p class="reason-text">How you make even the quietest evenings feel like magic</p>
+    </div>
+    <div class="reason-card" style="transition-delay:.16s">
+      <span class="reason-icon">☕</span>
+      <p class="reason-text">The little things — your voice, your warmth, your presence</p>
+    </div>
+    <div class="reason-card" style="transition-delay:.22s">
+      <span class="reason-icon">🕊️</span>
+      <p class="reason-text">The way you care — deeply, gently, without being asked</p>
+    </div>
+    <div class="reason-card" style="transition-delay:.28s">
+      <span class="reason-icon">🌹</span>
+      <p class="reason-text">Your strength — soft on the outside, unbreakable within</p>
+    </div>
+    <div class="reason-card" style="transition-delay:.34s">
+      <span class="reason-icon">✨</span>
+      <p class="reason-text">Simply this — that you are you, and that is more than enough</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider-wrap"><div class="divider"><div class="divider-line"></div><span class="divider-icon">✦</span><div class="divider-line"></div></div></div>
+
+<!-- ════════════════════════════════
+     LOVE LETTER
+     👉 Replace with your own words — this is the most personal part!
+════════════════════════════════ -->
+<div class="section">
+  <p class="section-label">A letter for you</p>
+  <h2 class="section-title">My dearest Sneha</h2>
+
+  <div class="letter-wrap">
+    <p class="letter-text">
+      There are words I have tried to write a hundred times — words to explain how much you mean
+      to me, how completely my world changed the moment you walked into it. But every time I try,
+      they fall short.<br><br>
+      You are, simply put, everything. You are the warmth on a cold morning, the calm in every storm,
+      the laughter that makes everything feel lighter.<br><br>
+      <em>Tum ho to, sab kuch hay.</em> This is not just a quote. It is the truest thing I know.<br><br>
+      Happy anniversary, my love. Here's to every moment we've shared — and to all the beautiful
+      ones still to come.
+    </p>
+    <span class="letter-sign">With all my love, Arka</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-names">Arka &amp; Sneha</div>
+  <p class="footer-hearts">♡ ♡ ♡</p>
+  <p class="footer-sub">Forever &amp; always · 14 October 2024</p>
+</footer>
+
+</div><!-- /#main-content -->
+
+<script>
+// ════════════════════════════════
+// 👉 SET YOUR PASSWORD HERE
+const SECRET = 'mimi';
+// ════════════════════════════════
+
+// ── Floating petals ──
+const petalEl = document.getElementById('petals');
+['🌸','🌺','🌷','✿','❀'].forEach(p => {
+  for (let j = 0; j < 4; j++) {
+    const d = document.createElement('div');
+    d.className = 'petal';
+    d.textContent = p;
+    d.style.cssText = `
+      left:${Math.random() * 100}vw;
+      font-size:${10 + Math.random() * 8}px;
+      animation-duration:${9 + Math.random() * 14}s;
+      animation-delay:${Math.random() * 18}s;
+    `;
+    petalEl.appendChild(d);
+  }
+});
+
+// ── Password check ──
+function checkPassword() {
+  const input = document.getElementById('pw-input');
+  const hint  = document.getElementById('pw-hint');
+  if (input.value.trim().toLowerCase() === SECRET.toLowerCase()) {
+    document.getElementById('screen-password').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('screen-proposal').classList.remove('hidden');
+      positionNoBtn();
+    }, 700);
+  } else {
+    input.classList.add('wrong');
+    hint.textContent = 'Hmm, that\'s not it… try again 🌸';
+    setTimeout(() => { input.classList.remove('wrong'); input.value = ''; }, 1000);
+  }
+}
+
+// ── Anniversary label (auto-calculated) ──
+function getAnniversaryLabel() {
+  const start = new Date('2024-10-14');
+  const now   = new Date();
+  let years  = now.getFullYear() - start.getFullYear();
+  let months = now.getMonth()    - start.getMonth();
+  if (months < 0 || (months === 0 && now.getDate() < start.getDate())) years--;
+  months = ((now.getMonth() - start.getMonth()) + 12) % 12;
+  if (now.getDate() < start.getDate()) months = (months - 1 + 12) % 12;
+
+  if (years === 0 && months === 0) return 'Day one of forever ✦';
+  if (years === 0) return `${months} month${months > 1 ? 's' : ''} of us ✦`;
+  const ordinal = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
+  const label = years <= 10 ? ordinal[years] : years;
+  return `${label} year${years > 1 ? 's' : ''} of us ✦`;
+}
+document.getElementById('anniversary-tag').textContent = getAnniversaryLabel();
+
+// ── Runaway No button ──
+const noBtn = document.getElementById('btn-no');
+let noBtnPlaced = false;
+
+function positionNoBtn() {
+  // nothing here — button stays static/inline until first hover
+}
+
+noBtn.addEventListener('mouseenter', makeFloatAndRunAway);
+noBtn.addEventListener('touchstart', makeFloatAndRunAway);
+
+function makeFloatAndRunAway() {
+  if (!noBtnPlaced) {
+    const r = noBtn.getBoundingClientRect();
+    noBtn.style.left   = r.left   + 'px';
+    noBtn.style.top    = r.top    + 'px';
+    noBtn.style.width  = r.width  + 'px';
+    noBtn.style.height = r.height + 'px';
+    noBtn.classList.add('floating');
+    noBtnPlaced = true;
+    // small delay so the fixed position settles before we move it
+    setTimeout(runAway, 30);
+  } else {
+    runAway();
+  }
+}
+
+function runAway() {
+  const margin = 80;
+  const bw = noBtn.offsetWidth;
+  const bh = noBtn.offsetHeight;
+  const maxX = window.innerWidth  - bw - margin;
+  const maxY = window.innerHeight - bh - margin;
+  const newX = Math.random() * (maxX - margin) + margin;
+  const newY = Math.random() * (maxY - margin) + margin;
+  noBtn.style.left = newX + 'px';
+  noBtn.style.top  = newY + 'px';
+}
+
+// ── Yes clicked ──
+function showYes() {
+  document.getElementById('screen-proposal').classList.add('hidden');
+  setTimeout(() => {
+    document.getElementById('screen-yes').classList.remove('hidden');
+    launchConfetti();
+  }, 700);
+}
+
+// ── Confetti ──
+function launchConfetti() {
+  const colors = ['#d4826a','#f0b4a0','#7a3e2e','#f9e4d8','#e8c4b4','#c4856a','#fff0ea'];
+  for (let i = 0; i < 90; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.cssText = `
+        left:${Math.random() * 100}vw;
+        top:-10px;
+        background:${colors[Math.floor(Math.random() * colors.length)]};
+        width:${6 + Math.random() * 8}px;
+        height:${6 + Math.random() * 8}px;
+        border-radius:${Math.random() > .5 ? '50%' : '2px'};
+        animation-duration:${2 + Math.random() * 2.5}s;
+        animation-delay:${Math.random() * .8}s;
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+// ── Open gift ──
+function openGift() {
+  document.getElementById('screen-yes').classList.add('hidden');
+  setTimeout(() => {
+    document.getElementById('main-content').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // start scroll-reveal observer
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.photo-card, .tl-item, .reason-card, .loc-card')
+      .forEach(el => observer.observe(el));
+  }, 700);
+}
+</script>
+</body>
+</html>
